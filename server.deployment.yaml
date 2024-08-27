@@ -33,14 +33,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: sonatype-service
+  name: registry
 spec:
   selector:
-    app: sonatype-registry
+    app: nexus3
   #type: ClusterIP
   type: NodePort  # Adicione o tipo de serviço se necessário
   ports:
-  - name: sonatype-registry
+  - name: http
     port: 8081
     protocol: TCP
     targetPort: 8081
