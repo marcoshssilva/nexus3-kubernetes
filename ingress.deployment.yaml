@@ -1,0 +1,141 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nexus3-registry-proxy
+  labels:
+    name: nexus3-registry-proxy
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-production"
+spec:
+  ingressClassName: kong
+  rules:
+  - host: registry.ctb.starlord443.dev
+    http:
+      paths:
+      - path: /service/rest/repository/browse/
+        pathType: Prefix
+        backend:
+          service:
+            name: registry
+            port:
+              number: 8081
+      - path: /repository/
+        pathType: Prefix
+        backend:
+          service:
+            name: registry
+            port:
+              number: 8081
+      - path: /static
+        pathType: Prefix
+        backend:
+          service:
+            name: registry
+            port:
+              number: 8081
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: registry
+            port:
+              number: 80
+  tls:
+  - secretName: nexus3-registry-cert
+    hosts:
+    - registry.ctb.starlord443.dev
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nexus3-dk-public
+  labels:
+    name: nexus3-dk-public
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-production"
+spec:
+  ingressClassName: kong
+  rules:
+  - host: dk-public.ctb.starlord443.dev
+    http:
+      paths:
+      - path: /static
+        pathType: Prefix
+        backend:
+          service:
+            name: registry
+            port:
+              number: 8081
+      - path: /v2
+        pathType: Prefix
+        backend:
+          service:
+            name: registry
+            port:
+              number: 8082
+      - path: /v1
+        pathType: Prefix
+        backend:
+          service:
+            name: registry
+            port:
+              number: 8082
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: registry
+            port:
+              number: 80
+  tls:
+  - secretName: nexus3-dk-public-cert
+    hosts:
+    - dk-public.ctb.starlord443.dev
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nexus3-dk-private
+  labels:
+    name: nexus3-dk-private
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-production"
+spec:
+  ingressClassName: kong
+  rules:
+  - host: dk-private.ctb.starlord443.dev
+    http:
+      paths:
+      - path: /static
+        pathType: Prefix
+        backend:
+          service:
+            name: registry
+            port:
+              number: 8081
+      - path: /v2
+        pathType: Prefix
+        backend:
+          service:
+            name: registry
+            port:
+              number: 8083
+      - path: /v1
+        pathType: Prefix
+        backend:
+          service:
+            name: registry
+            port:
+              number: 8083
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: registry
+            port:
+              number: 80
+  tls:
+  - secretName: nexus3-dk-private-cert
+    hosts:
+    - dk-private.ctb.starlord443.dev
