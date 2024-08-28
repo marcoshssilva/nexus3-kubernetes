@@ -8,9 +8,9 @@ Admin - DNS External:
 - **https://nxr.starlord443.dev/**
 
 Registries:
-- **(Registry mirror)** https://registry.ctb.starlord443.dev/
-- **(Docker public registry)** https://dk-public.ctb.starlord443.dev/
-- **(Docker private registry)** https://dk-private.ctb.starlord443.dev/
+- **(Registry mirror)** <br/> https://registry.ctb.starlord443.dev/
+- **(Docker public registry)** <br/> https://dk-public.ctb.starlord443.dev/
+- **(Docker private registry)** <br/> https://dk-private.ctb.starlord443.dev/
 
 ---
 ## Install
