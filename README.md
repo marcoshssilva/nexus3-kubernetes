@@ -3,6 +3,8 @@ Deploy my own Nexus3 on Kubernetes Cluster
 
 Admin - DNS Internal: 
 - **http://registry.nexus.svc.cluster.local:8081**
+
+
 Admin - DNS External: 
 - **https://nxr.starlord443.dev/**
 
