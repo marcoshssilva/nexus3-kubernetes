@@ -25,6 +25,27 @@ spec:
         name: nexus
         ports:
           - containerPort: 8081
+            name: http       # nexus3-admin
+          - containerPort: 8082
+            name: http-dk-1  # docker-public
+          - containerPort: 8083
+            name: http-dk-2  # docker-private
+          - containerPort: 8084
+            name: http-dk-3  # docker-jenkins-builds-public
+          - containerPort: 8085
+            name: http-dk-4  # docker-jenkins-builds-private
+          - containerPort: 8086
+            name: http-dk-5  # docker-hub
+          - containerPort: 8444
+            name: https-dk-1 # docker-public
+          - containerPort: 8445
+            name: https-dk-2 # docker-private
+          - containerPort: 8446
+            name: https-dk-3 # docker-jenkins-builds-public
+          - containerPort: 8447
+            name: https-dk-4 # docker-jenkins-builds-private
+          - containerPort: 8448
+            name: https-dk-5 # docker-hub
         volumeMounts:
         - name: registry-vol
           mountPath: /nexus-data
@@ -45,3 +66,43 @@ spec:
     protocol: TCP
     targetPort: 8081
     nodePort: 31229
+  - port: 8082
+    name: http-dk-1  # docker-public
+    protocol: TCP
+    targetPort: 8082
+  - port: 8083
+    name: http-dk-2  # docker-private
+    protocol: TCP
+    targetPort: 8083
+  - port: 8084
+    name: http-dk-3  # docker-jenkins-builds-public
+    protocol: TCP
+    targetPort: 8084
+  - port: 8085
+    name: http-dk-4  # docker-jenkins-builds-private
+    protocol: TCP
+    targetPort: 8085
+  - port: 8086
+    name: http-dk-5  # docker-hub
+    protocol: TCP
+    targetPort: 8086
+  - port: 8444
+    name: https-dk-1 # docker-public
+    protocol: TCP
+    targetPort: 8444
+  - port: 8445
+    name: https-dk-2 # docker-private
+    protocol: TCP
+    targetPort: 8445
+  - port: 8446
+    name: https-dk-3 # docker-jenkins-builds-public
+    protocol: TCP
+    targetPort: 8446
+  - port: 8447
+    name: https-dk-4 # docker-jenkins-builds-private
+    protocol: TCP
+    targetPort: 8447
+  - port: 8448
+    name: https-dk-5 # docker-hub
+    protocol: TCP
+    targetPort: 8448
