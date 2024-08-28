@@ -17,10 +17,30 @@ spec:
     spec:
       serviceAccountName: nexus-registry
       volumes:
+      - name: nginx-conf
+        configMap:
+          name: nginx-conf
+          items:
+          - key: nginx.conf
+            path: nginx.conf
       - name: registry-vol
         persistentVolumeClaim:
           claimName: nexus3-pv-claim
       containers:
+      - image: nginx:latest
+        name: nginx
+        resources:
+          limits:
+            memory: "32Mi"
+            cpu: "50m"
+        ports:
+        - containerPort: 80
+          name: http-nginx
+        volumeMounts:
+        - name: nginx-conf
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+          readOnly: true
       - image: sonatype/nexus3:latest
         name: nexus
         ports:
@@ -61,6 +81,10 @@ spec:
   #type: ClusterIP
   type: NodePort  # Adicione o tipo de serviço se necessário
   ports:
+  - name: http-nginx
+    port: 80
+    protocol: TCP
+    targetPort: 80
   - name: http
     port: 8081
     protocol: TCP
