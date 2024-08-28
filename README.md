@@ -4,9 +4,13 @@ Deploy my own Nexus3 on Kubernetes Cluster
 Admin - DNS Internal: 
 - **http://registry.nexus.svc.cluster.local:8081**
 
-
 Admin - DNS External: 
 - **https://nxr.starlord443.dev/**
+
+Registries:
+- **(Registry mirror)** https://registry.ctb.starlord443.dev/
+- **(Docker public registry)** https://dk-public.ctb.starlord443.dev/
+- **(Docker private registry)** https://dk-private.ctb.starlord443.dev/
 
 ---
 ## Install
@@ -20,4 +24,26 @@ kubectl apply -n nexus -f ./
 
 ```bash
 kubectl port-forward svc/registry 8081:8081 -n nexus 
+```
+
+## Public Repositories
+
+> Maven
+```
+https://registry.ctb.starlord443.dev/repository/maven-public/
+```
+
+> NPM
+```
+https://registry.ctb.starlord443.dev/repository/npm-public/
+```
+
+> Docker images
+```
+https://registry.ctb.starlord443.dev/repository/docker-public/
+```
+
+> RAW Files
+```
+https://registry.ctb.starlord443.dev/repository/raw-public/
 ```
