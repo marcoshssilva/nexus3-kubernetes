@@ -18,8 +18,11 @@ helm install nexus . \
   --create-namespace
 
 ```
+---
 
-Deploy my own Nexus3 on Kubernetes Cluster
+## See my own server on cloud
+
+You can access my own Nexus3 registry using links above:
 
 Admin - DNS External: 
 - **https://nxr.starlord443.dev/**
