@@ -3,12 +3,20 @@
 ## How to install using Helm
 
 ```bash
+
 # Define your persistent volume claim need store all data as persistent
 set PERSISTENT_VOLUME_CLAIM=example-claim
 
 git clone https://github.com/marcoshssilva/nexus3-kubernetes.git
+
 cd nexus3-kubernetes/nexus3
-helm install nexus . --set volume.enabled=true --set volume.claim=$PERSISTENT_VOLUME_CLAIM --namespace nexus --create-namespace
+
+helm install nexus . \
+  --set volume.enabled=true \
+  --set volume.claim=$PERSISTENT_VOLUME_CLAIM \
+  --namespace nexus \
+  --create-namespace
+
 ```
 
 Deploy my own Nexus3 on Kubernetes Cluster
