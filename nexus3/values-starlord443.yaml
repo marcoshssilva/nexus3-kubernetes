@@ -29,7 +29,7 @@ ingress:
   annotations: {
     "cert-manager.io/cluster-issuer": "letsencrypt-production",
     "konghq.com/strip-path": "true",
-    "konghq.com/plugins": "ip-restriction-cloudflare,file-log,syslog,cache-website,bot-detection"
+    "konghq.com/plugins": "file-log,syslog,cache-website,bot-detection"
   }
   hosts:
     - host: nxr-admin.starlord443.dev
