@@ -28,7 +28,8 @@ ingress:
   className: "kong"
   annotations: {
     "cert-manager.io/cluster-issuer": "letsencrypt-production",
-    "konghq.com/strip-path": "true"
+    "konghq.com/strip-path": "true",
+    "konghq.com/plugins": "ip-restriction-cloudflare,file-log,syslog,cache-website,bot-detection"
   }
   hosts:
     - host: nxr-admin.starlord443.dev
@@ -41,19 +42,6 @@ ingress:
         - nxr-admin.starlord443.dev
 
 resources: {}
-
-livenessProbe:
-  initialDelaySeconds: 600
-  periodSeconds: 30
-  httpGet:
-    path: /
-    port: http
-readinessProbe:
-  initialDelaySeconds: 600
-  periodSeconds: 30
-  httpGet:
-    path: /
-    port: http
 
 autoscaling:
   enabled: false
