@@ -36,10 +36,30 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
+          startupProbe:
+            initialDelaySeconds: 0
+            periodSeconds: 10
+            timeoutSeconds: 1
+            failureThreshold: 180
+            httpGet:
+              path: /
+              port: http
           livenessProbe:
-            {{- toYaml .Values.livenessProbe | nindent 12 }}
+            initialDelaySeconds: 0
+            periodSeconds: 60
+            timeoutSeconds: 1
+            failureThreshold: 6
+            httpGet:
+              path: /
+              port: http
           readinessProbe:
-            {{- toYaml .Values.readinessProbe | nindent 12 }}
+            initialDelaySeconds: 0
+            periodSeconds: 60
+            timeoutSeconds: 1
+            failureThreshold: 6
+            httpGet:
+              path: /
+              port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           ports:
