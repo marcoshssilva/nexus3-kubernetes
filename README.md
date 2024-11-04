@@ -4,7 +4,7 @@
 
 ```bash
 
-# Define your persistent volume claim need store all data as persistent
+# Define your persistent volume claim before install to store all data as persistent
 set PERSISTENT_VOLUME_CLAIM=example-claim
 
 git clone https://github.com/marcoshssilva/nexus3-kubernetes.git
