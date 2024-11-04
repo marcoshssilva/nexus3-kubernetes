@@ -1,0 +1,104 @@
+replicaCount: 1
+image:
+  repository: sonatypecommunity/nexus3
+  pullPolicy: IfNotPresent
+  tag: "latest"
+volume:
+  enabled: true
+  claim: "nexus3-pvc"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+podAnnotations: {}
+
+podLabels: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+
+service:
+  type: NodePort
+  port: 8081
+
+ingress:
+  enabled: true
+  className: "kong"
+  annotations: {
+    "cert-manager.io/cluster-issuer": "letsencrypt-production",
+    "konghq.com/strip-path": "true"
+  }
+  hosts:
+    - host: nxr-admin.starlord443.dev
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: nexus3-tls
+      hosts:
+        - nxr-admin.starlord443.dev
+
+resources: {}
+
+livenessProbe:
+  initialDelaySeconds: 600
+  periodSeconds: 30
+  httpGet:
+    path: /
+    port: http
+readinessProbe:
+  initialDelaySeconds: 600
+  periodSeconds: 30
+  httpGet:
+    path: /
+    port: http
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+extra:
+  ports:
+    - port: 8082
+      name: http-dk-1  # docker-public
+      protocol: TCP
+    - port: 8083
+      name: http-dk-2  # docker-private
+      protocol: TCP
+    - port: 8084
+      name: http-dk-3  # docker-jenkins-builds-public
+      protocol: TCP
+    - port: 8085
+      name: http-dk-4  # docker-jenkins-builds-private
+      protocol: TCP
+    - port: 8086
+      name: http-dk-5  # docker-hub
+      protocol: TCP
+    - port: 8444
+      name: https-dk-1 # docker-public
+      protocol: TCP
+    - port: 8445
+      name: https-dk-2 # docker-private
+      protocol: TCP
+    - port: 8446
+      name: https-dk-3 # docker-jenkins-builds-public
+      protocol: TCP
+    - port: 8447
+      name: https-dk-4 # docker-jenkins-builds-private
+      protocol: TCP
+    - port: 8448
+      name: https-dk-5 # docker-hub
+      protocol: TCP
+  volumes: []
+  volumeMounts: []
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
