@@ -110,6 +110,9 @@ autoscaling:
   targetMemoryUtilizationPercentage: 80
 
 extra:
+  # Additional ports on service and container
+  ports: []
+
   # Additional volumes on the output Deployment definition.
   volumes: []
 #   - name: foo

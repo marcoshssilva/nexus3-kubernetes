@@ -11,5 +11,11 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
+  {{- range .Values.extra.ports }}
+    - port: {{ .port  }}
+      targetPort: {{ .port }}
+      protocol: {{ .protocol }}
+      name: {{ .name }}
+  {{- end }}
   selector:
     {{- include "nexus3.selectorLabels" . | nindent 4 }}

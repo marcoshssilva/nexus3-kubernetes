@@ -46,6 +46,11 @@ spec:
             - containerPort: {{ .Values.service.port }}
               name: http
               protocol: TCP
+          {{- range .Values.extra.ports }}
+            - containerPort: {{ .port  }}
+              name: {{ .name }}
+              protocol: TCP
+          {{- end }}
           volumeMounts:
             {{- if .Values.volume.enabled }}
             - name: nexus-data
