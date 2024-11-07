@@ -27,9 +27,9 @@ ingress:
   enabled: true
   className: "kong"
   annotations: {
-    "cert-manager.io/cluster-issuer": "letsencrypt-production",
-    "konghq.com/strip-path": "true",
-    "konghq.com/plugins": "file-log,syslog,cache-website,bot-detection"
+    # "cert-manager.io/cluster-issuer": "letsencrypt-production",
+    # "konghq.com/strip-path": "true",
+    # "konghq.com/plugins": "ip-restriction-cloudflare,file-log,syslog,cache-website,bot-detection,request-transformer-remove-headers,response-transformer-remove-headers"
   }
   hosts:
     - host: nxr-admin.starlord443.dev
