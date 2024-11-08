@@ -24,24 +24,23 @@ service:
   port: 8081
 
 ingress:
-  enabled: true
-  className: "kong"
-  annotations: {
-    # "cert-manager.io/cluster-issuer": "letsencrypt-production",
-    # "konghq.com/strip-path": "true",
-    # "konghq.com/plugins": "ip-restriction-cloudflare,file-log,syslog,cache-website,bot-detection,request-transformer-remove-headers,response-transformer-remove-headers"
-  }
+  enabled: false
+  className: ""
+  annotations: {}
   hosts:
-    - host: nxr-admin.starlord443.dev
+    - host: chart-example.local
       paths:
         - path: /
           pathType: Prefix
-  tls:
-    - secretName: nexus3-tls
-      hosts:
-        - nxr-admin.starlord443.dev
+  tls: []
 
-resources: {}
+resources:
+  limits:
+    cpu: 500m
+    memory: 3Gi
+  requests:
+    cpu: 300m
+    memory: 3Gi
 
 autoscaling:
   enabled: false
