@@ -1,0 +1,18 @@
+---
+{{- if .Values.persistence.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "nexus3.fullname" . }}-volume-claim
+  labels:
+    {{- include "nexus3.labels" . | nindent 4 }}
+spec:
+  storageClassName: {{ .Values.persistence.storageClassName }}
+  accessModes:
+    {{- with .Values.persistence.accessModes }}
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.storageVolume }}
+{{- end }}

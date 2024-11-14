@@ -7,7 +7,7 @@ image:
   # This sets the pull policy for images.
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
+  tag: "3.74.0-java17-alpine"
 
 volume:
   # Set default persistent volume to application
@@ -117,3 +117,20 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+persistence:
+  enabled: false
+  storageClassName: ""
+  storageVolume: 50Gi
+  accessModes:
+    - ReadWriteOnce
+
+env:
+  - name: MAX_HEAP
+    value: "768m"
+  - name: MIN_HEAP
+    value: "256m"
+  - name: JAVA_OPTS
+    value: "-server -XX:MaxPermSize=192m -Djava.net.preferIPv4Stack=true"
+  - name: LAUNCHER_CONF
+    value: "./conf/jetty.xml ./conf/jetty-requestlog.xml"

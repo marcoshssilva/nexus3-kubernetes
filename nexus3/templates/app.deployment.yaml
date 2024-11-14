@@ -60,6 +60,11 @@ spec:
             httpGet:
               path: /
               port: http
+          env:
+          {{- range .Values.env }}
+            - name: {{ .name }}
+              value: {{ .value }}
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           ports:
@@ -72,8 +77,8 @@ spec:
               protocol: TCP
           {{- end }}
           volumeMounts:
-            {{- if .Values.volume.enabled }}
-            - name: nexus-data
+            {{- if .Values.persistence.enabled }}
+            - name: data-vol
               mountPath: /nexus-data
               subPath: data
             {{- end }}
@@ -81,10 +86,10 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
       volumes:
-        {{- if .Values.volume.enabled }}
-        - name: nexus-data
+        {{- if .Values.persistence.enabled }}
+        - name: data-vol
           persistentVolumeClaim:
-            claimName: {{ .Values.volume.claim }}
+            claimName: {{ include "nexus3.fullname" . }}-volume-claim
         {{- end }}
       {{- with .Values.extra.volumes }}
         {{- toYaml . | nindent 8 }}
