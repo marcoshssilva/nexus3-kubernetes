@@ -19,6 +19,17 @@ Admin - DNS External:
 - **https://nxr.starlord443.dev/**
 ---
 
+## Pulling Images
+
+You can free pull images from **proxy-docker-public.starlord443.dev** or **proxy-docker-hub.starlord443.dev**
+
+Example: Pulling ubuntu
+```bash
+docker pull proxy-docker-public.starlord443.dev/ubuntu:latest
+# or
+docker pull proxy-docker-hub.starlord443.dev/ubuntu:latest
+```
+
 ## Public Repositories
 
 > Maven
