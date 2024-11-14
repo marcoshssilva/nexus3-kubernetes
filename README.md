@@ -21,7 +21,7 @@ Admin - DNS External:
 
 ## Pulling Images
 
-You can free pull images from **proxy-docker-public.starlord443.dev** or **proxy-docker-hub.starlord443.dev**
+You can FREE pull images from **proxy-docker-public.starlord443.dev** or **proxy-docker-hub.starlord443.dev**
 
 Example: Pulling ubuntu
 ```bash
