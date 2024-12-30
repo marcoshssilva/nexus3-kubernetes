@@ -7,7 +7,7 @@ image:
   # This sets the pull policy for images.
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "3.74.0-java17-alpine"
+  tag: "latest"
 
 volume:
   # Set default persistent volume to application
