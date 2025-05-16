@@ -1,0 +1,55 @@
+extra:
+  ports:
+    - port: 8082
+      name: http-dk-1  # docker-public
+      protocol: TCP
+    - port: 8083
+      name: http-dk-2  # docker-private
+      protocol: TCP
+    - port: 8084
+      name: http-dk-3  # docker-jenkins-builds-public
+      protocol: TCP
+    - port: 8085
+      name: http-dk-4  # docker-jenkins-builds-private
+      protocol: TCP
+    - port: 8086
+      name: http-dk-5  # docker-hub
+      protocol: TCP
+    - port: 8444
+      name: https-dk-1 # docker-public
+      protocol: TCP
+    - port: 8445
+      name: https-dk-2 # docker-private
+      protocol: TCP
+    - port: 8446
+      name: https-dk-3 # docker-jenkins-builds-public
+      protocol: TCP
+    - port: 8447
+      name: https-dk-4 # docker-jenkins-builds-private
+      protocol: TCP
+    - port: 8448
+      name: https-dk-5 # docker-hub
+      protocol: TCP
+  volumes: 
+  - name: nexus-data
+    nfs:
+      server: 10.1.1.207
+      path: /block-storage/nfs.old/nexus-nexus-nexus3-volume-claim-pvc-bf08d12e-3eca-4909-9f0c-730783f0678c
+  volumeMounts:
+  - name: nexus-data
+    mountPath: /nexus-data
+    subPath: data
+
+persistence:
+  enabled: false
+
+service:
+  type: NodePort
+
+resources: {}
+#  limits:
+#    cpu: 4
+#    memory: 2Gi
+#  requests:
+#    cpu: 4
+#    memory: 2Gi
