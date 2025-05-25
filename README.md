@@ -21,13 +21,19 @@ Admin - DNS External:
 
 ## Pulling Images
 
-You can FREE pull images from **proxy-docker-public.starlord443.dev** or **proxy-docker-hub.starlord443.dev**
+You can FREE pull images from **dkpub.starlord443.dev** or **dkhub.starlord443.dev**
+
+Mirrors from:
+- GitHub (ghcr.io)
+- Quay.io (quay.io)
+- Microsoft (mcr.microsoft.com)
+- Google (gcr.io)
 
 Example: Pulling ubuntu
 ```bash
-docker pull proxy-docker-public.starlord443.dev/ubuntu:latest
+docker pull dkpub.starlord443.dev/ubuntu:latest
 # or
-docker pull proxy-docker-hub.starlord443.dev/ubuntu:latest
+docker pull dkhub.starlord443.dev/ubuntu:latest
 ```
 
 ## Public Repositories
