@@ -6,12 +6,6 @@ extra:
     - port: 8083
       name: http-dk-2  # docker-private
       protocol: TCP
-    - port: 8084
-      name: http-dk-3  # docker-jenkins-builds-public
-      protocol: TCP
-    - port: 8085
-      name: http-dk-4  # docker-jenkins-builds-private
-      protocol: TCP
     - port: 8086
       name: http-dk-5  # docker-hub
       protocol: TCP
@@ -20,12 +14,6 @@ extra:
       protocol: TCP
     - port: 8445
       name: https-dk-2 # docker-private
-      protocol: TCP
-    - port: 8446
-      name: https-dk-3 # docker-jenkins-builds-public
-      protocol: TCP
-    - port: 8447
-      name: https-dk-4 # docker-jenkins-builds-private
       protocol: TCP
     - port: 8448
       name: https-dk-5 # docker-hub
