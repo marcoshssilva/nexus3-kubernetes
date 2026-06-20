@@ -6,6 +6,9 @@ metadata:
     {{- include "nexus3.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
+  {{- if and .Values.statefulset.enabled (eq .Values.service.type "ClusterIP") }}
+  clusterIP: None
+  {{- end }}
   ports:
     - port: {{ .Values.service.port }}
       targetPort: http

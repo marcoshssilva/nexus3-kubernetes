@@ -1,16 +1,24 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: {{ include "nexus3.fullname" . }}
   labels:
     {{- include "nexus3.labels" . | nindent 4 }}
 spec:
+  serviceName: {{ include "nexus3.fullname" . }}
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
       {{- include "nexus3.selectorLabels" . | nindent 6 }}
+  podManagementPolicy: {{ .Values.statefulset.podManagementPolicy | default "OrderedReady" }}
+  updateStrategy:
+    type: {{ .Values.statefulset.updateStrategy.type | default "RollingUpdate" }}
+    {{- if eq (.Values.statefulset.updateStrategy.type | default "RollingUpdate") "RollingUpdate" }}
+    rollingUpdate:
+      {{- toYaml .Values.statefulset.updateStrategy.rollingUpdate | nindent 6 }}
+    {{- end }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -30,6 +38,23 @@ spec:
       serviceAccountName: {{ include "nexus3.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if and .Values.persistence.enabled .Values.volumePermissions.enabled }}
+      initContainers:
+        - name: init-permissions
+          image: {{ .Values.volumePermissions.image | default "busybox" }}
+          command:
+            - sh
+            - -c
+            - |
+              chown -R {{ .Values.podSecurityContext.runAsUser | default 1001 }}:{{ .Values.podSecurityContext.runAsGroup | default 1001 }} /nexus-data
+              chmod -R g+rwX /nexus-data
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+          volumeMounts:
+            - name: data-vol
+              mountPath: /nexus-data
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
@@ -50,7 +75,7 @@ spec:
             timeoutSeconds: 1
             failureThreshold: 6
             httpGet:
-              path: /
+              path: /service/rest/v1/status
               port: http
           readinessProbe:
             initialDelaySeconds: 0
@@ -58,7 +83,7 @@ spec:
             timeoutSeconds: 1
             failureThreshold: 6
             httpGet:
-              path: /
+              path: /service/rest/v1/status
               port: http
           env:
           {{- range .Values.env }}
@@ -80,20 +105,14 @@ spec:
             {{- if .Values.persistence.enabled }}
             - name: data-vol
               mountPath: /nexus-data
-              subPath: data
             {{- end }}
           {{- with .Values.extra.volumeMounts }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
       volumes:
-        {{- if .Values.persistence.enabled }}
-        - name: data-vol
-          persistentVolumeClaim:
-            claimName: {{ include "nexus3.fullname" . }}-volume-claim
-        {{- end }}
-      {{- with .Values.extra.volumes }}
+        {{- with .Values.extra.volumes }}
         {{- toYaml . | nindent 8 }}
-      {{- end }}
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -106,3 +125,19 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+  {{- if .Values.persistence.enabled }}
+  volumeClaimTemplates:
+    - metadata:
+        name: data-vol
+        labels:
+          {{- include "nexus3.labels" . | nindent 10 }}
+      spec:
+        storageClassName: {{ .Values.persistence.storageClassName }}
+        accessModes:
+          {{- with .Values.persistence.accessModes }}
+          {{- toYaml . | nindent 10 }}
+          {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.persistence.storageVolume }}
+  {{- end }}
